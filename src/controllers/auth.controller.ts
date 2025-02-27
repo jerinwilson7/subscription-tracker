@@ -30,7 +30,7 @@ export const signUp = async (req:Request<{}, {}, SignUpRequest>, res:Response, n
         const existingUser = await User.findOne({email})
 
         if(existingUser){
-            throw new CustomError("user already exists",400)
+            throw new CustomError("user already exists",404)
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -68,7 +68,7 @@ export const signIn = async (req:Request<{},{},SignInRequest>, res:Response, nex
       const user = await User.findOne({email})
       
       if(!user){
-          throw new CustomError("user not found",400)
+          throw new CustomError("user not found",404)
         }
         
         const isValidPassword = await bcrypt.compare(password,user.password)
